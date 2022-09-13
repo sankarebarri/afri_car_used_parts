@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section>
+  <link rel="stylesheet" href="{% static 'css/store.css' %}" >
+  <div class="main">
+    {% for product in products %}
+    <div class="listings">
+      <div class="listing--header">
+        <h4>{{ product.name }}</h4>
+        <img src="{{ product.main_image.url }}" alt="">
+      </div>
+
+      <div class="listing--bottom">
+        <hr>
+
+        <div class="">
+          <div class="listings-details">
+            <h4 data-product={{ product.id }} data-action="add" class="cart-view update-cart">add to cart</h4>
+            <h4 class="cart-view"><a href="products.html">view</a></h4>
+            <h4 id="price">{{ product.price }} CFA</h4>
+          </div>
+          <p>
+            A car wheel with greatest details ever
+            A car wheel with greatest details ever
+            A car wheel with greatest d
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock content %}

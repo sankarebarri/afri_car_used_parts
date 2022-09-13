@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}" >
+<section id="cart">
+  <table>
+<caption>Order Summary</caption>
+<thead>
+<tr>
+  <th></th>
+  <th scope="col">Item</th>
+  <th scope="col">Price</th>
+  <th scope="col">Quantity</th>
+  <th colspan="2">Total</th>
+</tr>
+</thead>
+
+<tbody>
+{% for item in items %}
+<tr>
+  <td> <img src="{{ item.product.main_image.url }}" alt=""> </td>
+  <td>{{ item.product.name }}</td>
+  <td>{{ item.product.price }} CFA</td>
+  <td>
+    <span data-product={{item.product.id}} data-action="remove" class="chg-quantity update-cart">-</span>
+     {{ item.quantity }}
+    <span data-product={{item.product.id}} data-action="add" class="chg-quantity update-cart">+</span>
+  </td>
+  <td>{{ item.get_total }} CFA</td>
+</tr>
+{% endfor %}
+
+<tr>
+  <td colspan="4"> <strong>Order Total</strong> </td>
+  <td> <strong>{{ order.get_cart_total }} CFA</strong> </td>
+</tr>
+
+<tr>
+  <td colspan="5">
+    <button type="button" name="button"> <a href="{% url 'checkout' %}">Proceed to Checkout</a> </button>
+    <button type="button" name="button"> <a href="#">Continue Shopping</a> </button>
+  </td>
+
+</tr>
+
+</tbody>
+<!-- <tfoot>
+<tr>
+  <th scope="row" colspan="2">Order Total:</th>
+  <td colspan="2">$133</td>
+</tr>
+</tfoot> -->
+
+</table>
+</section>
+{% endblock content %}

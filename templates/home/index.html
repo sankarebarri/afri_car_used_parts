@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+  <div class="home--pic">
+    <p>Africa's No 1 online used parts store
+    </p>
+    <input type="text" placeholder="Type in car parts or key words">
+    <input type="submit" value="Search">
+  </div>
+</section>
+
+<section id="services">
+  <h2>Our Services</h2>
+  <div id="service-box">
+    <div class="service">
+      <h3>Perfect</h3>
+      <p>Get the Perfect car parts for you</p>
+    </div>
+
+    <div class="service">
+      <h3>Diagonise</h3>
+      <p>We can Diagonise your car problem</p>
+    </div>
+
+    <div class="service">
+      <h3>Solution</h3>
+      <p>We can fix your car problem</p>
+    </div>
+
+    <div class="service">
+      <h3>Help</h3>
+      <p>Tell us about your particular car problem, we can solve it</p>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <h2>Featured Products</h2>
+
+  <div id="feature-products">
+    {% for product in products %}
+    <a href="#">
+      <div class="product">
+        <h5>{{ product.name }}</h5>
+        <img src="{{ product.main_image.url }}" alt="">
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock content %}

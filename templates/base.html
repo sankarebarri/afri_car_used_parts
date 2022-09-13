@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" >
+    <script type="text/javascript">
+      let user = "{{ request.user }}"
+
+      function getToken(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+          let cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            let cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break
+            }
+          }
+        }
+        return cookieValue;
+      }
+      let csrftoken = getToken("csrftoken");
+
+      function getCookie(name) {
+        //Split cookie string and get all individual name=value pairs in an array
+        let cookieArr = document.cookie.split(";")
+
+        //Loop through the array elements
+        for (let i = 0; i < cookieArr.length; i++) {
+          let cookiePair = cookieArr[i].split("=")
+          /* Removing white space at the beginning of the cookie name and compare
+          it with the given string */
+          if (name == cookiePair[0].trim()) {
+            // Decode the cookie value and return
+            return decodeURIComponent(cookiePair[1])
+          }
+        }
+        // Return null if not found
+        return null;
+      }
+      let cart = JSON.parse(getCookie("cart"))
+
+      if (cart == undefined) {
+        cart = {}
+        document.cookie = "cart=" + JSON.stringify(cart)  + ";domain=;path=/"
+      }
+
+    </script>
+    <title></title>
+  </head>
+  <body>
+    <section id="header">
+      <ul id="navbar">
+        <li> <a href="{% url 'home' %}">Home</a> </li>
+        <li> <a href="{% url 'store' %}">Store</a> </li>
+        <li> <a href="#">Tyres</a> </li>
+        <li> <a href="#">Doors</a> </li>
+        <li> <a href="#">Engines</a> </li>
+        <li> <a href="#">Batteries</a> </li>
+        <li> <a href="#">About</a> </li>
+        <li> <a href="{% url 'cart' %}"><img id="cart-img" src="{% static '/images/cart1.png' %}" alt="cart"><span>{{ cartItems }}</span></a></li>
+        {% if user.is_authenticated %}
+          <li> <a id="logout" href="{% url 'logout' %}">Logout</a> </li>
+        {% else %}
+          <li> <a id="login" href="{% url 'login' %}">Login</a> </li>
+        {% endif %}
+      </ul>
+    </section>
+    {% block content %} {% endblock %}
+    <footer>
+      <div id="footer-col">
+        <div class="">
+          <h4>Cars</h4>
+          <ul>
+            <li><a href="#">Mercedes</a></li>
+            <li> <a href="#">Toyota</a> </li>
+            <li> <a href="#">Hyundai</a> </li>
+          </ul>
+        </div>
+
+        <div class="">
+          <h4>Car Parts</h4>
+          <ul>
+            <li> <a href="#">Windshields</a> </li>
+            <li> <a href="#">Hand Gears</a> </li>
+            <li> <a href="#">Breaks</a> </li>
+            <li> <a href="#">Sparks</a> </li>
+            <li> <a href="#">Alternators</a> </li>
+          </ul>
+        </div>
+
+        <div class="">
+          <h4>About Us</h4>
+          <ul>
+            <li> <a href="#">Home</a> </li>
+            <li> <a href="#">About</a> </li>
+            <li> <a href="#">FAQs</a> </li>
+          </ul>
+        </div>
+
+        <div class="">
+          <h4>Contact Us</h4>
+          <ul>
+            <li>Address: No 123, Sector 45, Door 67, State 89</li>
+            <li>Email: email@site.com</li>
+            <li>Phone: (+223) 77-77-77-77</li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+      <p id="copyright">© 2022 Africa Best Car Parts Dealer</p>
+    </footer>
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+  </body>
+</html>
